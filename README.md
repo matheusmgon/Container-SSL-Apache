@@ -44,9 +44,10 @@ Feito isto, vamos para a parte magica
 Perfeito, verifique se no arquivo "/etc/apache2/sites-avaliables/xxxx-le-ssl.conf/ foi feito o apontamento correto para as postas
 
 PS: Se quiser "forçar" o redirect, insira um ".htaccess" dentro da aplicação do Container:
-    RewriteEngine On
-    RewriteCond %{SERVER_PORT} 80
-    RewriteRule ^(.*)$ https://xxxxx.com.br/$1 [R,L]
+      
+      RewriteEngine On
+      RewriteCond %{SERVER_PORT} 80
+      RewriteRule ^(.*)$ https://xxxxx.com.br/$1 [R,L]
     
     
 
