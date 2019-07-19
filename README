@@ -1,0 +1,54 @@
+#Docker Container + SSL (Let's Encrypt) + Apache2
+
+Para fazer a instalação do SSLl com docker, é bem simples:
+
+Vamos utilizar um Container com Let's Encrypt e inserir as informações dentro de outro container
+
+No meu caso, utilize o mod_proxy para redirecionar acessos do host para o container, então vou suar o meu como exemplo:
+
+Vhost:
+  <VirtualHost xxxxxxxxx.com.br:80>
+
+  	ServerAdmin matheus@xxxxxx.com.br
+  	RewriteEngine On
+  	ProxyRequests Off
+  	ProxyPreserveHost On
+  	ServerName xxxxxxx.com.br
+
+  	<Proxy *>
+  		Require all granted
+  	</Proxy>
+
+
+  	ProxyPass "/" "http://localhost:9000/" connectiontimeout=5 timeout=30 keepalive=on
+  	ProxyPassReverse "/" "http://localhost:9000/"
+
+
+  	ErrorLog ${APACHE_LOG_DIR}/xxxxxx-error.log
+  	CustomLog ${APACHE_LOG_DIR}/xxxxxx-access.log combined
+  </VirtualHost>
+  	
+Reinicie o Apache
+ 
+  service apache2 restart
+
+
+Feito isto, vamos para a parte magica
+
+   apt install certbot python-certbot-apache
+
+ OK, agora vamos instalar o certificado na maquina
+ 
+    certbot --apache -d xxxxx.com.br -d www.xxxxx.com.br --email email@xxxxx.com.br --agree-tos
+ 
+Perfeito, verifique se no arquivo "/etc/apache2/sites-avaliables/xxxx-le-ssl.conf/ foi feito o apontamento correto para as postas
+
+PS: Se quiser "forçar" o redirect, insira no Vhost:
+  Redirect / https://www.xxxxx.com.br
+  
+
+
+
+
+OBRIGADO
+ 
