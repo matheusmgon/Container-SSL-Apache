@@ -30,12 +30,12 @@ Vhost:
   	
 Reinicie o Apache
  
-  service apache2 restart
+    service apache2 restart
 
 
 Feito isto, vamos para a parte magica
 
-   apt install certbot python-certbot-apache
+     apt install certbot python-certbot-apache
 
  OK, agora vamos instalar o certificado na maquina
  
@@ -43,9 +43,12 @@ Feito isto, vamos para a parte magica
  
 Perfeito, verifique se no arquivo "/etc/apache2/sites-avaliables/xxxx-le-ssl.conf/ foi feito o apontamento correto para as postas
 
-PS: Se quiser "forçar" o redirect, insira no Vhost:
-  Redirect / https://www.xxxxx.com.br
-  
+PS: Se quiser "forçar" o redirect, insira um ".htaccess" dentro da aplicação do Container:
+    RewriteEngine On
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule ^(.*)$ https://xxxxx.com.br/$1 [R,L]
+    
+    
 
 
 
